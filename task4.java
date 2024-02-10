@@ -1,3 +1,4 @@
+//ATM INTERFACE
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -5,15 +6,17 @@ class UserAccount
 {
     static private int bank_balance;
 
-    public static int getBank_balance() {
+    public static int getBank_balance()
+    {
         return bank_balance;
     }
 
-    public static void setBank_balance(int bank_balance) {
+    public static void setBank_balance(int bank_balance)
+    {
         UserAccount.bank_balance = bank_balance;
     }
 }
-class ATM_Machine
+class ATM_Machine extends UserAccount
 {
     Stack<String> transactionHistory = new Stack<>();
     static boolean flag = true;
@@ -37,18 +40,26 @@ class ATM_Machine
         switch (operation)
         {
             case 1:
-                System.out.println("\n========================= ACCOUNT BALANCE =========================");
+                System.out.println("\n===================== ACCOUNT BALANCE =====================");
                 System.out.println("AVAILABLE BALANCE : "+UserAccount.getBank_balance()+" ₹");
-                System.out.println("====================================================================");
+                System.out.println("=============================================================");
                 break;
 
             case 2:
                 System.out.print("ENTER THE AMOUNT ₹ : ");
                 int withdraw_amount = sc.nextInt();
                 sc.nextLine();
-                UserAccount.setBank_balance(UserAccount.getBank_balance()-withdraw_amount);
-                transactionHistory.push("WITHDRAWAL AMOUNT : "+withdraw_amount+"₹");
-                System.out.println("========================= WITHDRAWAL SUCCESSFUL =========================");
+                if(withdraw_amount>getBank_balance())
+                {
+                    System.out.println("=============== Insufficient Bank Balance ! =================");
+                }
+                else
+                {
+                    UserAccount.setBank_balance(UserAccount.getBank_balance()-withdraw_amount);
+                    transactionHistory.push("WITHDRAWAL AMOUNT : "+withdraw_amount+"₹");
+                    System.out.println("================= WITHDRAWAL SUCCESSFUL =====================");
+                }
+
                 break;
 
             case 3:
@@ -57,7 +68,7 @@ class ATM_Machine
                 sc.nextLine();
                 UserAccount.setBank_balance(UserAccount.getBank_balance()+deposit_amount);
                 transactionHistory.push("DEPOSITED AMOUNT : "+deposit_amount+"₹");
-                System.out.println("========================= DEPOSIT SUCCESSFUL =========================");
+                System.out.println("=================== DEPOSIT SUCCESSFUL ======================");
                 break;
 
             case 4 :
@@ -68,7 +79,7 @@ class ATM_Machine
             case 5:
                 flag = false;
                 System.out.println("\n");
-                System.out.println("\n========================= APPLICATION CLOSING... =========================");
+                System.out.println("\n================= APPLICATION CLOSING... ==================");
                 break;
 
             default :
@@ -77,7 +88,7 @@ class ATM_Machine
     }
 
     private void miniStatement() {
-        System.out.println("========================= MINI STATEMENT =========================");
+        System.out.println("======================== MINI STATEMENT =======================");
         if(transactionHistory.size()<5)
         {
             for(String transaction : transactionHistory)
@@ -93,9 +104,9 @@ class ATM_Machine
 
             }
         }
-            System.out.println("AVAILABLE BALANCE: " + UserAccount.getBank_balance()+"₹");
+            System.out.println("AVAILABLE BALANCE : " + UserAccount.getBank_balance()+"₹");
 
-            System.out.println("\n===================================================================");
+            System.out.println("\n==============================================================");
     }
 }
 
@@ -103,7 +114,7 @@ class task4 extends ATM_Machine
 {
     public static void main(String[] args)
     {
-        System.out.println("========================= WELCOME TO ATM MACHINE =========================");
+        System.out.println("========================= *** WELCOME TO ATM MACHINE *** =========================");
         task4 obj =  new task4();
 
         while(flag)
